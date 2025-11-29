@@ -1,70 +1,87 @@
-<template>
-  <div class="container">
-    <div class="title">COLOR IO</div>
-    <div class="sub-title">CARD</div>
-    <hr />
-    <ul id="color-list" class="row row-cols-3">
-      <li class="col" v-for="(color, index) in colors" :key="index">
-        <div class="color" :style="{ 'background-color': `#${color.hex}` }">
-          <div class="del-btn" @click="onDelete(color)">×</div>
-        </div>
-        <input type="text" aria-label="ColorHex" class="colorHex" maxlength="6" v-model="color.hex"  />
-      </li>
-    </ul>
-    <hr />
-
-    <div class="sub-title">Input Color Hex To Add New Color :</div>
-    <div class="wrapper">
-      <span>#</span>
-      <input id="color-hex-input" type="text" aria-label="ColorHexInput" maxlength="6" v-model="inputValue" />
-      <button type="button" @click="onCreateColor">Create</button>
-    </div>
-    <div class="footer-title">Powered by UhikoChen</div>
-  </div>
-</template>
-
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue'
+import ColorCard from '../components/ColorCard.vue'
 
-let inputValue = "";
-let colors = reactive([
+const inputValue = ref('')
+
+const colors = ref([
   {
     id: 1,
-    hex: "1B3E36",
+    hex: '1B3E36',
   },
   {
     id: 2,
-    hex: "A0561F",
+    hex: 'A0561F',
   },
   {
     id: 3,
-    hex: "D5BCAE",
+    hex: 'D5BCAE',
   },
   {
     id: 4,
-    hex: "EBE4DD",
+    hex: 'EBE4DD',
   },
   {
     id: 5,
-    hex: "EAE8E4",
+    hex: 'EAE8E4',
   },
   {
     id: 6,
-    hex: "F7F7F5",
+    hex: 'F7F7F5',
   },
-]);
+])
 
 function onCreateColor() {
-  colors.push({ id: 0, hex: inputValue });
+  colors.value.push({ id: 0, hex: inputValue.value })
+  inputValue.value = ''
+}
+
+function onUpdateColor(color) {
+  const index = colors.value.findIndex(c => c.id === color.id)
+  if (index > -1) {
+    colors.value[index] = color
+  }
 }
 
 function onDelete(color) {
-  const index = colors.indexOf(color);
+  const index = colors.value.findIndex(c => c.id === color.id)
   if (index > -1) {
-    colors.splice(index, 1);
+    colors.value.splice(index, 1)
   }
 }
 </script>
+
+<template>
+  <div class="container">
+    <div class="title">
+      COLOR IO
+    </div>
+    <div class="sub-title">
+      CARD
+    </div>
+    <hr>
+    <ul id="color-list" class="row row-cols-3">
+      <li v-for="(color, index) in colors" :key="index" class="col">
+        <ColorCard :color="color" @update="onUpdateColor" @delete="onDelete" />
+      </li>
+    </ul>
+    <hr>
+
+    <div class="sub-title">
+      Input Color Hex To Add New Color :
+    </div>
+    <div class="wrapper">
+      <span>#</span>
+      <input id="color-hex-input" v-model="inputValue" type="text" aria-label="ColorHexInput" maxlength="6">
+      <button type="button" @click="onCreateColor">
+        Create
+      </button>
+    </div>
+    <div class="footer-title">
+      Powered by ColorIO
+    </div>
+  </div>
+</template>
 
 <style>
 * {
@@ -138,54 +155,6 @@ button {
 .row {
   padding: 0;
   margin: 50px 0;
-}
-
-.color {
-  min-height: 300px;
-  position: relative;
-}
-
-@media (max-width: 499.98px) {
-  .color {
-    min-height: 200px;
-  }
-}
-
-.color:active {
-  pointer-events: none;
-}
-
-.del-btn {
-  color: #b7b4ad;
-}
-
-@media (min-width: 1200px) {
-  .del-btn {
-    display: none;
-  }
-
-  .color:hover>.del-btn {
-    display: block;
-    font-size: 20pt;
-    position: absolute;
-    top: 0;
-    right: 10px;
-    cursor: pointer;
-    pointer-events: auto;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  }
-}
-
-@media (max-width: 1200px) {
-  .color>.del-btn {
-    font-size: 20pt;
-    position: absolute;
-    top: 0;
-    right: 10px;
-    cursor: pointer;
-    pointer-events: auto;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  }
 }
 
 .colorHex {
