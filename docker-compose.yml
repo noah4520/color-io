@@ -4,4 +4,4 @@ services:
   web:
     build: https://github.com/UhikoChen/Color-IO.git#main
     ports:
-      - "9444:4173"
+      - '9444:4173'

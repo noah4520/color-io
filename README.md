@@ -1,23 +1,21 @@
 # Color-IO
 
-前端練習，使用者可以透過新增、刪除色卡，或修改色卡上的色碼來變更顏色
-
-View site：https://uhikochen.github.io/Color-IO/
+一個簡單的前端練習網站，使用者可以建立與刪除色卡，並且也可以修改色卡上的色碼來更新顏色。
 
 ## Project Setup
 
 ```sh
-npm install
+pnpm install
 ```
 
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+pnpm dev
 ```
 
 ### Compile and Minify for Production
 
 ```sh
-npm run build
+pnpm build
 ```
